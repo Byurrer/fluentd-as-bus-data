@@ -1,0 +1,21 @@
+
+services:
+  fluentd:
+    image: fluentd:v1.18-1
+    volumes:
+      - ./fluent.conf:/fluentd/etc/fluent.conf
+    networks:
+      - fluentd-http
+
+  http:
+    build:
+      context: .
+    volumes:
+      - ./server.py:/app/server.py
+      - ./send.py:/app/send.py
+    command: python3 server.py
+    networks:
+      - fluentd-http
+
+networks:
+  fluentd-http:
