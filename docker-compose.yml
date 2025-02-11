@@ -12,8 +12,16 @@ services:
       context: .
     volumes:
       - ./server.py:/app/server.py
-      - ./send.py:/app/send.py
     command: python3 server.py
+    networks:
+      - fluentd-http
+  
+  app:
+    build:
+      context: .
+    volumes:
+      - ./send.py:/app/send.py
+    command: python3 send.py
     networks:
       - fluentd-http
 
